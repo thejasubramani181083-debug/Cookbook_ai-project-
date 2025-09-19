@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friends Recipes</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f0fdf4;
+      color: #333;
+    }
+
+    header {
+      background: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #a3e635;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: #22c55e;
+      margin: 0;
+      font-style: italic;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #22c55e;
+    }
+
+    .section {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      text-align: center;
+      background: white;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .overlay {
+      padding: 15px;
+    }
+
+    .overlay h2 {
+      margin: 0 0 8px;
+      font-size: 1.2rem;
+      color: #15803d;
+    }
+
+    .overlay p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .overlay button {
+      margin-top: 12px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #ef4444;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .overlay button:hover {
+      background: #dc2626;
+    }
+
+    /* Recipe Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 800px;
+      width: 90%;
+      overflow: hidden;
+      text-align: left;
+      animation: fadeIn 0.5s;
+    }
+
+    .modal-header {
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 40px 20px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-body h3 {
+      margin-top: 0;
+      color: #15803d;
+    }
+
+    .modal-body ul {
+      list-style: disc;
+      margin: 0 0 20px 20px;
+      color: #555;
+    }
+
+    iframe {
+      width: 100%;
+      height: 350px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .close {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    footer {
+      background: #22c55e;
+      color: white;
+      padding: 40px 20px;
+      margin-top: 50px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <h1>Friends Recipes...</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Popular</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Recipes Section -->
+  <section class="section">
+    <h2>🍴 My Cookbook</h2>
+    <div class="grid">
+
+      <!-- Recipe Card 1 -->
+      <div class="card">
+        <img src="recipe1.jpg" alt="Spaghetti Pasta">
+        <div class="overlay">
+          <h2>Spaghetti Pasta</h2>
+          <p>Classic Italian dish with rich tomato sauce.</p>
+          <button onclick="openRecipe('Spaghetti Pasta','recipe1.jpg')">View Recipe</button>
+        </div>
+      </div>
+
+      <!-- Recipe Card 2 -->
+      <div class="card">
+        <img src="recipe2.jpg" alt="Grilled Chicken">
+        <div class="overlay">
+          <h2>Grilled Chicken</h2>
+          <p>Juicy grilled chicken with herbs and spices.</p>
+          <button onclick="openRecipe('Grilled Chicken','recipe2.jpg')">View Recipe</button>
+        </div>
+      </div>
+
+      <!-- Recipe Card 3 -->
+      <div class="card">
+        <img src="recipe3.jpg" alt="Chocolate Cake">
+        <div class="overlay">
+          <h2>Chocolate Cake</h2>
+          <p>Delicious soft cake with creamy chocolate frosting.</p>
+          <button onclick="openRecipe('Chocolate Cake','recipe3.jpg')">View Recipe</button>
+        </div>
+      </div>
+
+      <!-- Recipe Card 4 -->
+      <div class="card">
+        <img src="recipe4.jpg" alt="Fresh Salad">
+        <div class="overlay">
+          <h2>Fresh Salad</h2>
+          <p>Healthy salad with fresh veggies and dressing.</p>
+          <button onclick="openRecipe('Fresh Salad','recipe4.jpg')">View Recipe</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+ <!-- Section -->
+  <section class="section">
+    <h2>Most Popular Categories</h2>
+    <p>Be sure not to miss out the categories of these most popular categories. Enjoy trying them out!</p>
+
+    <div class="grid">
+      <!-- Category Cards -->
+      <div class="card">
+        <img src="beef.jpg.jpg" alt="Beef">
+        <h3>Beef</h3>
+        <p>View all recipes</p>
+       <button onclick="openRecipe('Beef','beef.jpg.jpg')">View All Recipe</button>
+      </div>
+
+      <div class="card">
+        <img src="chicken.jpg.jpg" alt="Chicken">
+        <h3>Chicken</h3>
+        <p>View all recipes</p>
+<button onclick="openRecipe('Chicken','chicken.jpg.jpg')">View All Recipe</button>
+      </div>
+
+      <div class="card">
+        <img src="dessert.jpg.jpg" alt="Dessert">
+        <h3>Dessert</h3>
+        <p>View all recipes</p>
+<button onclick="openRecipe('Dessert','dessert.jpg.jpg')">View All Recipe</button>
+      </div>
+
+      <div class="card">
+        <img src="pizza.jpg.jpg" alt="Pizza">
+        <h3>Pizza</h3>
+        <p>View all recipes</p>
+<button onclick="openRecipe('Pizza','pizza.jpg.jpg')">View All Recipe</button>
+      </div>
+
+      <div class="card">
+        <img src="pasta.jpg.jpg" alt="Pasta">
+        <h3>Pasta</h3>
+        <p>View all recipes</p>
+<button onclick="openRecipe('Pasta','pasta.jpg.jpg')">View All Recipe</button>
+      </div>
+
+      <div class="card">
+        <img src="tacos.jpg.jpg" alt="Tacos">
+        <h3>Tacos</h3>
+        <p>View all recipes</p>
+<button onclick="openRecipe('Tacos','tacos.jpg.jpg')">View All Recipe</button>
+      </div>
+
+      <div class="card">
+        <img src="briyani.jpg.jpg" alt="Briyani">
+        <h3>Briyani</h3>
+        <p>View all recipes</p>
+<button onclick="openRecipe('Briyani','briyani.jpg.jpg')">View All Recipe</button>
+      </div>
+
+      <div class="card">
+        <img src="salmon.jpg.jpg" alt="Salmon">
+        <h3>Salmon</h3>
+        <p>View all recipes</p>
+<button onclick="openRecipe('Salmon','salmon.jpg.jpg')">View All Recipe</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Recipe Modal -->
+  <div id="recipeModal" class="modal">
+    <div class="modal-content">
+      <div id="modalHeader" class="modal-header">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle"></h2>
+      </div>
+      <div class="modal-body">
+        <h3>Ingredients</h3>
+        <ul id="ingredientsList"></ul>
+
+        <h3>Description</h3>
+        <p id="recipeDesc"></p>
+
+        <h3>Watch Video</h3>
+        <iframe id="recipeVideo" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Friends Recipes - © 2025 - All Rights Reserved
+  </footer>
+
+  <script>
+    function openRecipe(name, image) {
+      document.getElementById("recipeModal").style.display = "flex";
+      document.getElementById("modalTitle").innerText = name;
+      document.getElementById("modalHeader").style.backgroundImage = "url('" + image + "')";
+
+      // Ingredients
+      const ingredients = {
+        "Spaghetti Pasta": ["200g spaghetti", "2 cups tomato sauce", "1 tbsp olive oil", "Salt & pepper"],
+        "Grilled Chicken": ["2 chicken breasts", "1 tbsp olive oil", "Mixed herbs", "Salt & pepper"],
+        "Chocolate Cake": ["2 cups flour", "1 cup cocoa powder", "3 eggs", "1 cup sugar", "½ cup butter"],
+        "Fresh Salad": ["Lettuce", "Tomatoes", "Onions", "Carrots", "Olive oil"],
+
+	"Beef":["oil","beef","salt","turmaric"],
+        "Chicken":["chicken","salt","con-powder","garlic","chili powder","lemon"],
+        "Dessert":["water","sugar","saffron","rose water","baking powder","flour","ghee"],
+        "Pizza":["pizza dough","pizza-sauce","low-moisture whole milk mozzarella","green pepper","black olives","cheese"],
+        "Pasta":["white wine","chili powder","garlic","spaghetti","onion","tomatoes","salt"],
+        "Tacos":["Grounded chicken","Olive oil","Masalas","Tortillas","Avocado","Salsa"],
+        "Briyani":["chicken","rise","masalas","onions","tomatoes","salt","oil"],
+        "Salmon":["salmon","butter","salt & pepper","lemon juice","garlic"]
+
+      };
+
+      // Descriptions
+      const descriptions = {
+        "Spaghetti Pasta": "Classic Italian pasta cooked in tomato sauce with herbs.",
+        "Grilled Chicken": "Juicy chicken breasts grilled to perfection with spices.",
+        "Chocolate Cake": "Soft, fluffy, and rich chocolate cake with frosting.",
+        "Fresh Salad": "A fresh and healthy mix of vegetables with olive oil.",
+
+	 "Beef":"soft and taste beef",
+        "Chicken":"spicy chicken made with massalas.",
+        "Dessert":"make your food festivel end with delicious dessert.",
+        "Pizza":"different mood then order different pizza.",
+        "Pasta":"delicious pasta.",
+        "Tacos":"spicy tacos.",
+        "Briyani":"start your food with teasting briyani.",
+        "Salmon":"soft and tendered salmon."
+ 
+
+      };
+
+      // YouTube Video Links
+      const videos = {
+        "Spaghetti Pasta": "https://www.youtube.com/embed/jBoMTZIHqLc",
+        "Grilled Chicken": "https://www.youtube.com/embed/vvqHIdWaysI",
+        "Chocolate Cake": "https://www.youtube.com/embed/GEctc8pOgRk?si=bexfirJdFZyS3exd",
+        "Fresh Salad": "https://www.youtube.com/embed/PlNE7Mrlvcg?si=kBOSk4dBUC8DL854",
+
+        "Beef": "https://www.youtube.com/embed/mZScjf9KuUI?si=XqnqiO3xw53kffak",
+        "Chicken": "https://www.youtube.com/embed/P7A4XY-uzHA?si=FsqjubzJl0Vy67_J",
+        "Dessert": "https://www.youtube.com/embed/folNs-_sUNE?si=xWcNoDZhrWdMi4VO",
+        "Pizza": "https://www.youtube.com/embed/VFBZRZ9lTsM?si=r4Sy75bG-tnl7mCP",
+        "Pasta": "https://www.youtube.com/embed/oJYpjUVYxm0?si=cO5JanRc7hV1QIas",
+        "Tacos": "https://www.youtube.com/embed/-3g9Ad3a2A4?si=nfF8CA1FP-ZngXq3pa",
+        "Briyani": "https://www.youtube.com/embed/Gk9GnGMaGHY?si=ETrImTeK1XvfwLpo",
+        "Salmon": "https://www.youtube.com/embed/-x2E7T3-r7k?si=8JPZyOO__MMs0oHa",
+      };
+
+      // Load Ingredients
+      document.getElementById("ingredientsList").innerHTML = "";
+      ingredients[name].forEach(item => {
+        let li = document.createElement("li");
+        li.textContent = item;
+        document.getElementById("ingredientsList").appendChild(li);
+      });
+
+      // Load Description
+      document.getElementById("recipeDesc").innerText = descriptions[name];
+
+      // Load Video
+      document.getElementById("recipeVideo").src = videos[name] + "?autoplay=1";
+    }
+
+    function closeModal() {
+      document.getElementById("recipeModal").style.display = "none";
+      document.getElementById("recipeVideo").src = ""; // stop video
+    }
+  </script>
+
+<meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinna Recipes</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f0fdf4;
+      color: #333;
+    }
+
+    /* Navbar */
+    header {
+      background: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #a3e635;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: #22c55e;
+      margin: 0;
+      font-style: italic;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #22c55e;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: white;
+      border: 1px solid #d4d4d4;
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 700px;
+      margin: 40px auto;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .newsletter h2 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #15803d;
+    }
+
+    .newsletter p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .newsletter input {
+      padding: 10px 14px;
+      width: 60%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      margin-right: 10px;
+    }
+
+    .newsletter button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: white;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .newsletter button:hover {
+      background: #15803d;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      text-align: center;
+      padding-bottom: 15px;
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-bottom: 2px solid #bbf7d0;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin: 12px 0 4px;
+      color: #15803d;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Footer */
+    footer {
+      background: #22c55e;
+      color: white;
+      padding: 40px 20px;
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      max-width: 800px;
+      margin: 0 auto 20px;
+      text-align: left;
+    }
+
+    .footer-links h4 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links ul li {
+      margin: 6px 0;
+    }
+
+    .footer-links ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 0.9rem;
+      transition: opacity 0.3s;
+    }
+
+    .footer-links ul li a:hover {
+      opacity: 0.8;
+    }
+
+    .footer-bottom {
+      font-size: 0.85rem;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+    </header>
+
+  <!-- Newsletter -->
+  <div class="newsletter">
+    <h2>Join Now, Subscribe and Get Delicious Recipes from Renowned Chef, Friends...</h2>
+    <p>We value your time. Subscribe to receive hand-picked recipes and expert advice, delivered weekly. No spam, just great food.</p>
+    <input type="email" placeholder="Your email address">
+    <button>Subscribe</button>
+  </div>
+
+  <!-- Categories / Cards already in your code ... -->
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <div>
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Chicken</a></li>
+          <li><a href="#">Breakfast</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More</h4>
+        <ul>
+          <li><a href="#">Dessert</a></li>
+          <li><a href="#">Goat</a></li>
+          <li><a href="#">Briyani</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Others</h4>
+        <ul>
+          <li><a href="#">Pasta</a></li>
+          <li><a href="#">Seafood</a></li>
+          <li><a href="#">Starter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Special</h4>
+        <ul>
+          <li><a href="#">Vegan</a></li>
+          <li><a href="#">Side</a></li>
+          <li><a href="#">Miscellaneous</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      Friends Recipess - © 2025 - All Rights Reserved
+    </div>
+  </footer>
+
+
+
+</body>
+</html>
